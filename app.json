@@ -22,7 +22,8 @@
       },
       "predictiveBackGestureEnabled": false,
       "package": "it.studio.psicologo",
-      "allowBackup": false
+      "allowBackup": false,
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png",

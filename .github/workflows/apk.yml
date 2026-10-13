@@ -1,0 +1,43 @@
+name: Costruisci APK Android
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apk
+  cancel-in-progress: true
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+      - run: npm ci
+      # Genera il progetto Android nativo a partire dalla configurazione Expo
+      - run: npx expo prebuild -p android --no-install
+      - name: Compila l'APK
+        working-directory: android
+        run: ./gradlew assembleRelease --no-daemon
+      - run: cp android/app/build/outputs/apk/release/app-release.apk studio-psicologo.apk
+      - name: Pubblica come release scaricabile
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "v1.0.${{ github.run_number }}" studio-psicologo.apk \
+            --title "Studio Psicologo 1.0.${{ github.run_number }}" \
+            --notes "APK Android da installare sul telefono. Link fisso all'ultima versione: https://github.com/${{ github.repository }}/releases/latest/download/studio-psicologo.apk" \
+            --latest
