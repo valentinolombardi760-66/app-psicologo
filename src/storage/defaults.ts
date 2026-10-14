@@ -18,6 +18,7 @@ export const defaultSettings: Settings = {
   regime: 'forfettario',
   enpap: true,
   enpapRate: 2,
+  enpapIncluded: true,
   stampCharged: true,
   defaultRate: 60,
   defaultDuration: 50,

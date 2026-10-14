@@ -102,6 +102,8 @@ export interface Settings {
   regime: Regime;
   enpap: boolean;
   enpapRate: number;
+  /** Il prezzo della seduta comprende già la rivalsa ENPAP (scorporo). */
+  enpapIncluded: boolean;
   stampCharged: boolean;
   defaultRate: number;
   defaultDuration: number;

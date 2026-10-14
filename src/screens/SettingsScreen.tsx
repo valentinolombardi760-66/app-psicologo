@@ -95,7 +95,15 @@ export default function SettingsScreen() {
         <Card>
           <Text style={[font.tiny, { marginBottom: 8 }]}>REGIME</Text>
           <Segmented options={['forfettario', 'ordinario'] as const} value={s.regime} onChange={(regime) => updateSettings({ regime })} />
-          <ToggleRow label="Rivalsa ENPAP 2%" hint="Contributo integrativo addebitato al paziente" value={s.enpap} onChange={(enpap) => updateSettings({ enpap })} />
+          <ToggleRow label="Rivalsa ENPAP 2%" hint="Contributo integrativo indicato in ricevuta" value={s.enpap} onChange={(enpap) => updateSettings({ enpap })} />
+          {s.enpap && (
+            <ToggleRow
+              label="ENPAP compresa nel prezzo"
+              hint={s.enpapIncluded ? 'Seduta da 60 €: onorario 58,82 € + ENPAP 1,18 € = 60 €' : 'Seduta da 60 €: onorario 60 € + ENPAP 1,20 € = 61,20 €'}
+              value={s.enpapIncluded}
+              onChange={(enpapIncluded) => updateSettings({ enpapIncluded })}
+            />
+          )}
           <ToggleRow label="Bollo a carico del paziente" hint="2 € aggiunti in ricevuta sopra 77,47 €" value={s.stampCharged} onChange={(stampCharged) => updateSettings({ stampCharged })} />
           <Text style={[font.small, { marginTop: 10 }]}>
             Le ricevute verso privati sono cartacee/PDF: la fattura elettronica per prestazioni sanitarie a persone fisiche è vietata. Verso aziende ed enti serve la fattura elettronica, da emettere con il tuo gestionale o commercialista.
@@ -137,7 +145,7 @@ export default function SettingsScreen() {
 
       <FadeIn index={6} style={{ alignItems: 'center', marginTop: 30 }}>
         <PsiLogo size={44} />
-        <Text style={[font.small, { marginTop: 8 }]}>PsicoLab · versione 1.1</Text>
+        <Text style={[font.small, { marginTop: 8 }]}>PsicoLab · versione 1.2</Text>
         <Text style={[font.small, { color: colors.muted, textAlign: 'center' }]}>Dati cifrati sul dispositivo (XChaCha20-Poly1305)</Text>
       </FadeIn>
 

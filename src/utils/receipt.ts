@@ -8,13 +8,25 @@ const round2 = (n: number) => Math.round(n * 100) / 100;
 
 /** Calcola rivalsa ENPAP, bollo e totale secondo le regole per psicologi (prestazioni sanitarie esenti IVA). */
 export function computeReceipt(items: ReceiptItem[], s: Settings) {
-  const subtotal = round2(items.reduce((t, i) => t + (i.amount || 0), 0));
-  const enpap = s.enpap ? round2((subtotal * s.enpapRate) / 100) : 0;
+  const gross = round2(items.reduce((t, i) => t + (i.amount || 0), 0));
+  let lines = items.map((i) => ({ ...i, amount: round2(i.amount || 0) }));
+  let subtotal = gross;
+  let enpap = s.enpap ? round2((gross * s.enpapRate) / 100) : 0;
+  if (s.enpap && s.enpapIncluded) {
+    // Scorporo: il prezzo comprende già il 2%, quindi onorario = prezzo / 1,02
+    const k = 1 + s.enpapRate / 100;
+    subtotal = round2(gross / k);
+    enpap = round2(gross - subtotal);
+    lines = items.map((i) => ({ ...i, amount: round2((i.amount || 0) / k) }));
+    // l'ultimo centesimo di arrotondamento va sull'ultima riga, così le righe sommano all'onorario
+    const diff = round2(subtotal - lines.reduce((t, l) => t + l.amount, 0));
+    if (lines.length && diff) lines[lines.length - 1].amount = round2(lines[lines.length - 1].amount + diff);
+  }
   const exempt = subtotal + enpap;
   // Bollo da 2 € se l'importo esente supera 77,47 € (non se è uguale)
   const stampDue = exempt > STAMP_THRESHOLD;
   const stamp = stampDue && s.stampCharged ? STAMP_AMOUNT : 0;
-  return { subtotal, enpap, stampDue, stamp, total: round2(exempt + stamp) };
+  return { lines, subtotal, enpap, stampDue, stamp, total: round2(exempt + stamp) };
 }
 
 export const PAYMENT_LABEL: Record<string, string> = {

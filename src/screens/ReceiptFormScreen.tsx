@@ -56,7 +56,7 @@ export default function ReceiptFormScreen({ navigation, route }: ScreenProps<'Re
       year,
       date,
       patientId: patient.id,
-      items,
+      items: calc.lines,
       subtotal: calc.subtotal,
       enpap: calc.enpap,
       stamp: calc.stamp,
@@ -129,8 +129,9 @@ export default function ReceiptFormScreen({ navigation, route }: ScreenProps<'Re
 
       <FadeIn index={4}>
         <View style={styles.summary}>
-          <Line label="Onorario" value={euro(calc.subtotal)} />
-          {s.enpap && <Line label={`Rivalsa ENPAP ${s.enpapRate}%`} value={euro(calc.enpap)} />}
+          {s.enpap && s.enpapIncluded && <Line label="Prezzo concordato" value={euro(items.reduce((t, i) => t + i.amount, 0))} />}
+          <Line label={s.enpap && s.enpapIncluded ? 'di cui onorario' : 'Onorario'} value={euro(calc.subtotal)} />
+          {s.enpap && <Line label={`${s.enpapIncluded ? 'di cui rivalsa' : 'Rivalsa'} ENPAP ${s.enpapRate}%`} value={euro(calc.enpap)} />}
           {calc.stampDue && <Line label={s.stampCharged ? 'Marca da bollo' : 'Marca da bollo (a tuo carico)'} value={euro(calc.stamp)} />}
           <View style={{ height: 1, backgroundColor: 'rgba(255,255,255,0.25)', marginVertical: 10 }} />
           <Line label="Totale" value={euro(calc.total)} big />

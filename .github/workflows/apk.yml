@@ -42,7 +42,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "v1.1.${{ github.run_number }}" studio-psicologo.apk \
-            --title "PsicoLab 1.1.${{ github.run_number }}" \
+          gh release create "v1.2.${{ github.run_number }}" studio-psicologo.apk \
+            --title "PsicoLab 1.2.${{ github.run_number }}" \
             --notes "APK Android da installare sul telefono. Link fisso all'ultima versione: https://github.com/${{ github.repository }}/releases/latest/download/studio-psicologo.apk" \
             --latest
