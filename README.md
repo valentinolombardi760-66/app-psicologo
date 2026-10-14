@@ -1,4 +1,4 @@
-# Studio Psicologo
+# PsicoLab
 
 App per smartphone (Android e iOS) per la gestione dello studio di uno psicologo: pazienti, agenda, diario clinico, ricevute e Sistema Tessera Sanitaria. Realizzata con Expo (React Native).
 

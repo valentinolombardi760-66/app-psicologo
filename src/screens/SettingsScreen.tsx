@@ -137,7 +137,7 @@ export default function SettingsScreen() {
 
       <FadeIn index={6} style={{ alignItems: 'center', marginTop: 30 }}>
         <PsiLogo size={44} />
-        <Text style={[font.small, { marginTop: 8 }]}>Studio · versione 1.0</Text>
+        <Text style={[font.small, { marginTop: 8 }]}>PsicoLab · versione 1.1</Text>
         <Text style={[font.small, { color: colors.muted, textAlign: 'center' }]}>Dati cifrati sul dispositivo (XChaCha20-Poly1305)</Text>
       </FadeIn>
 

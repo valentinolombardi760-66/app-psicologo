@@ -25,7 +25,7 @@ export default function LockScreen({ mode, biometric, onDone }: Props) {
     if (Platform.OS === 'web' || mode !== 'unlock' || !biometric) return;
     const ok = (await LocalAuthentication.hasHardwareAsync()) && (await LocalAuthentication.isEnrolledAsync());
     if (!ok) return;
-    const res = await LocalAuthentication.authenticateAsync({ promptMessage: 'Sblocca lo studio', cancelLabel: 'Usa PIN' });
+    const res = await LocalAuthentication.authenticateAsync({ promptMessage: 'Sblocca PsicoLab', cancelLabel: 'Usa PIN' });
     if (res.success) onDone();
   };
 
@@ -82,7 +82,7 @@ export default function LockScreen({ mode, biometric, onDone }: Props) {
             />
             <PsiLogo size={78} dark />
           </View>
-          <Text style={styles.title}>Studio</Text>
+          <Text style={styles.title}>PsicoLab</Text>
           <Text style={styles.sub}>{msg}</Text>
           {mode === 'create' && Platform.OS === 'web' && (
             <Text style={styles.warn}>Il PIN è la chiave dei tuoi dati: se lo dimentichi potrai recuperarli solo da un backup.</Text>

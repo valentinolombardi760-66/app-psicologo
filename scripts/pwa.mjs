@@ -49,7 +49,7 @@ const head = `
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Studio" />
+    <meta name="apple-mobile-web-app-title" content="PsicoLab" />
     <style>html,body{background:#F5F3FB}#root{max-width:520px;margin:0 auto;box-shadow:0 0 40px rgba(59,47,143,.12)}</style>
     <script>
       if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('${base}/sw.js', { scope: '${base}/' }));
