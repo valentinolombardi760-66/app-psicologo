@@ -30,7 +30,13 @@ jobs:
       - run: npx expo prebuild -p android --no-install
       - name: Compila l'APK
         working-directory: android
-        run: ./gradlew assembleRelease --no-daemon
+        run: |
+          set -o pipefail
+          if ! ./gradlew assembleRelease --no-daemon 2>&1 | tee build.log; then
+            # Riporta l'errore di Gradle come annotazione, leggibile senza scaricare i log
+            grep -E "What went wrong|error:|ERROR:|Exception" -A8 build.log | head -40 | while IFS= read -r l; do echo "::error::$l"; done
+            exit 1
+          fi
       - run: cp android/app/build/outputs/apk/release/app-release.apk studio-psicologo.apk
       - name: Pubblica come release scaricabile
         env:
